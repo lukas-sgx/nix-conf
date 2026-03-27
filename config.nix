@@ -19,7 +19,7 @@
         enable = true;
         extraPackages = with pkgs; [
             intel-media-driver
-            intel-vapi-driver
+            intel-vaapi-driver
             vaapiVdpau
             libvdpau-va-gl
         ];
