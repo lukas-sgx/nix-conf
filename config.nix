@@ -26,6 +26,7 @@
     };
 
     services.thermald.enable = true;
+    services.power-profiles-daemon.enable = false;
     services.tlp = {
         enable = true;
         settings = {
@@ -49,7 +50,6 @@
         };
     };
 
-    sound.enable = false;
     hardware.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {
@@ -71,6 +71,8 @@
             PermitRootLogin = "no";
         };
     };
+
+    programs.zsh.enable = true;
 
     users.users.lukas = {
         isNormalUser = true;
