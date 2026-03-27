@@ -17,10 +17,10 @@
     let
         system = "x86_64-linux";
     in {
-        nixosConfigurations.laptop = nixpkgs.lib.nixosSystem {
+        nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
-            ./configuration.nix
+            ./config.nix
             home-manager.nixosModules.home-manager {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
