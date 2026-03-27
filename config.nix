@@ -15,13 +15,13 @@
     hardware.bluetooth.powerOnBoot = true;
     services.blueman.enable = true;
 
-    hardware.opengl = {
+    hardware.graphics = {
         enable = true;
         extraPackages = with pkgs; [
-        intel-media-driver
-        vaapiIntel
-        vaapiVdpau
-        libvdpau-va-gl
+            intel-media-driver
+            vaapiIntel
+            vaapiVdpau
+            libvdpau-va-gl
         ];
     };
 
@@ -30,8 +30,8 @@
     services.tlp = {
         enable = true;
         settings = {
-        CPU_SCALING_GOVERNOR_ON_AC = "performance";
-        CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+            CPU_SCALING_GOVERNOR_ON_AC = "performance";
+            CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
         };
     };
     powerManagement.enable = true;
@@ -45,8 +45,8 @@
         displayManager.gdm.enable = true;
         desktopManager.gnome.enable = true;
         xkb = {
-        layout = "fr";
-        variant = "";
+            layout = "fr";
+            variant = "";
         };
     };
 
