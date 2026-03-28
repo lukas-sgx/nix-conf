@@ -16,6 +16,8 @@
         discord
         eza
         fzf
+        kind
+        kubectl
         ]) ++ [
         zen-browser.packages.${system}.default
     ];
