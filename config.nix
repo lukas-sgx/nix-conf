@@ -57,6 +57,7 @@
         enable = true;
         enableOnBoot = true;
     };
+    virtualisation.virtualbox.guest.enable = true;
 
     services.openssh = {
         enable = true;
