@@ -84,6 +84,7 @@
         htop
         gnome-tweaks
         gnomeExtensions.appindicator
+        python3
     ];
 
     hardware.enableRedistributableFirmware = true;

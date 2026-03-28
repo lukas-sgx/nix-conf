@@ -33,9 +33,10 @@
     programs.zsh = {
         enable = true;
         shellAliases = {
-        ll = "ls -la";
-        nrs = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
-        nfu = "sudo nix flake update /etc/nixos";
+            ll = "eza -la --icons --git";
+            nrs = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
+            nfu = "sudo nix flake update /etc/nixos";
+            exegol = "~/.exegol-venv/bin/exegol";
         };
     };
 
