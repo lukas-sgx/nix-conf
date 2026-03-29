@@ -49,7 +49,7 @@
         displayManager.gdm.enable = true;
         desktopManager.gnome.enable = true;
         displayManager.gdm.autoLogin.user = "Lukas";
-	xkb = {
+	    xkb = {
             layout = "fr";
             variant = "";
         };
