@@ -7,7 +7,6 @@
     home.packages = (with pkgs; [
         vscode
         llvmPackages_20.clang
-        gnumake42
         go
 
         kind

@@ -102,6 +102,8 @@
         gnomeExtensions.appindicator
         python3
         libgtop
+        gcc
+        gnumake42
     ];
 
     environment.variables = {
