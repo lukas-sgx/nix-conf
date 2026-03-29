@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
     imports = [ ./hardware-configuration.nix ];
@@ -7,6 +7,7 @@
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
+    boot.loader.systemd-boot.configurationLimit = 10;
 
     boot.kernelPackages = pkgs.linuxPackages;
 
@@ -16,6 +17,15 @@
     hardware.bluetooth.enable = true;
     hardware.bluetooth.powerOnBoot = true;
     services.blueman.enable = true;
+
+    services.fprintd.enable = true;
+
+    security.pam.services = {
+        login.fprintAuth = lib.mkForce true;
+        sudo.fprintAuth = false;
+        polkit-1.fprintAuth = true;
+        gdm-fingerprint.fprintAuth = true;
+    };
 
     hardware.graphics = {
         enable = true;
@@ -38,7 +48,8 @@
         enable = true;
         displayManager.gdm.enable = true;
         desktopManager.gnome.enable = true;
-        xkb = {
+        displayManager.gdm.autoLogin.user = "Lukas";
+	xkb = {
             layout = "fr";
             variant = "";
         };
@@ -57,7 +68,6 @@
         enable = true;
         enableOnBoot = true;
     };
-    virtualisation.virtualbox.guest.enable = true;
 
     services.openssh = {
         enable = true;
@@ -67,14 +77,20 @@
         };
     };
 
-    programs.zsh.enable = true;
+    programs.fish.enable = true;
 
     users.users.lukas = {
         isNormalUser = true;
-        description = "Lukas Soigneux";
+        description = "Lukas";
         extraGroups = [ "wheel" "networkmanager" "docker" ];
-        shell = pkgs.zsh;
+        shell = pkgs.fish;
     };
+   
+    services.accounts-daemon.enable = true;
+    environment.etc."AccountsService/users/root".text = ''
+    	[User]
+    	SystemAccount=true
+    '';
 
     environment.systemPackages = with pkgs; [
         git
@@ -96,8 +112,12 @@
     nix.gc = {
         automatic = true;
         dates = "weekly";
-        options = "--delete-older-than 14d";
+        options = "--delete-older-than 7d";
     };
+
+    fonts.packages = with pkgs; [
+        nerd-fonts.jetbrains-mono
+    ];
 
     system.stateVersion = "25.05";
 }

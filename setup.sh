@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+/etc/profiles/per-user/lukas/bin/zsh
 
 #exegol install
 python3 -m venv ~/exegol-venv
