@@ -101,7 +101,12 @@
         gnome-tweaks
         gnomeExtensions.appindicator
         python3
+        libgtop
     ];
+
+    environment.variables = {
+        GI_TYPELIB_PATH = "/run/current-system/sw/lib/girepository-1.0";
+    };
 
     hardware.enableRedistributableFirmware = true;
 
@@ -119,5 +124,5 @@
         nerd-fonts.jetbrains-mono
     ];
 
-    system.stateVersion = "25.05";
+    system.stateVersion = "26.05";
 }

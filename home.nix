@@ -2,10 +2,9 @@
 {
     home.username = "lukas";
     home.homeDirectory = "/home/lukas";
-    home.stateVersion = "25.05";
+    home.stateVersion = "26.05";
 
     home.packages = (with pkgs; [
-        libgtop
         vscode
         llvmPackages_20.clang
         docker-compose
@@ -42,7 +41,7 @@
         ls     = "eza --icons";
         cat    = "bat --style=auto";
         nrs    = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
-        nfu    = "cd ~/epitech/free/nix-conf && nix flake update && cd -";
+        nfu    = "cd ~/epitech/free/nix-conf && sudo nix flake update && cd -";
         nfu-switch = "nfu && nrs";
         g = "git";
         kb     = "kubectl";
