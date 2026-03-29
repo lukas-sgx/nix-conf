@@ -18,3 +18,8 @@ tide configure --auto \
 #exegol install
 python3 -m venv ~/.exegol-venv
 ~/.exegol-venv/bin/pip install exegol
+
+#epiclang install
+git clone https://github.com/lukas-sgx/Epifaster.git
+cd Epifaster
+./setup.sh
