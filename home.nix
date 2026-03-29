@@ -6,7 +6,6 @@
 
   home.packages = (with pkgs; [
     libgtop
-    gnomeExtensions.system-monitor
     vscode
     llvmPackages_20.clang
     docker-compose
@@ -44,6 +43,7 @@
       cat    = "bat --style=auto";
       nrs    = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
       nfu    = "cd ~/epitech/free/nix-conf && nix flake update && cd -";
+      nfu-switch = "nfu && nrs";
       k      = "kubectl";
       ".."   = "cd ..";
       "..."  = "cd ../..";
@@ -107,6 +107,8 @@
       set -U tide_cmd_duration_bg_color 313244
       set -U tide_cmd_duration_color    fab387
       set -U tide_cmd_duration_icon     '󱦟'
+      set -U tide_cmd_duration_threshold 0
+      set -U tide_cmd_duration_decimals 2
 
       # Tide — Heure
       set -U tide_time_bg_color         313244
@@ -137,6 +139,8 @@
       set -U tide_prompt_color_failure  f38ba8
       set -U tide_character_icon        '❯'
       set -U tide_character_vi_icon_default '❯'
+      set -U tide_prompt_icon_connection ' '
+      set -U tide_prompt_connection_enabled false
 
       # FZF
       set -gx FZF_DEFAULT_OPTS "--color=bg+:#313244,bg:#1e1e2e,hl:#f38ba8,fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc,marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 --border rounded --prompt '❯ '"
