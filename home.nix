@@ -51,7 +51,7 @@
             ".."   = "cd ..";
             "..."  = "cd ../..";
             exegol = "~/.exegol-venv/bin/exegol";
-            epiclang = "~/.local/bin/epiclang"
+            epiclang = "~/.local/bin/epiclang";
         };
 
         plugins = [
