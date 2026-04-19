@@ -44,18 +44,15 @@
     i18n.defaultLocale = "fr_FR.UTF-8";
     console.keyMap = "fr";
 
-    services.xserver = {
-        enable = true;
-        displayManager.gdm.enable = true;
-        desktopManager.gnome.enable = true;
-        displayManager.gdm.autoLogin.user = "Lukas";
-	    xkb = {
-            layout = "fr";
-            variant = "";
-        };
+    services.displayManager.gdm.enable = true;
+    services.desktopManager.gnome.enable = true;
+    services.displayManager.autoLogin.user = "Lukas";
+    services.xserver.xkb = {
+        layout = "fr";
+        variant = "";
     };
 
-    hardware.pulseaudio.enable = false;
+    services.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {
         enable = true;
@@ -82,10 +79,16 @@
     users.users.lukas = {
         isNormalUser = true;
         description = "Lukas";
-        extraGroups = [ "wheel" "networkmanager" "docker" ];
+        extraGroups = [ "wheel" "networkmanager" "docker" "vboxusers" ];
         shell = pkgs.fish;
     };
-   
+  
+    programs.dconf.enable = true;
+ 
+    virtualisation.virtualbox.host = {
+        enable = true;
+    };
+
     services.accounts-daemon.enable = true;
     environment.etc."AccountsService/users/root".text = ''
     	[User]
@@ -102,8 +105,18 @@
         gnomeExtensions.appindicator
         python3
         libgtop
+
+        nasm
+        gef
+        gdb
         gcc
+        llvmPackages_20.clang
+        llvmPackages_20.llvm
+        gcovr
+        valgrind
         gnumake42
+        xhost
+        gsettings-desktop-schemas
     ];
 
     environment.variables = {
@@ -116,6 +129,7 @@
         experimental-features = [ "nix-command" "flakes" ];
         auto-optimise-store = true;
     };
+
     nix.gc = {
         automatic = true;
         dates = "weekly";
