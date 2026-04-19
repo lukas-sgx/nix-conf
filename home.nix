@@ -6,8 +6,10 @@
 
     home.packages = (with pkgs; [
         vscode
-        llvmPackages_20.clang
+
         go
+        gh
+        openvpn
 
         kind
         kubectl
@@ -16,10 +18,12 @@
         gnome-extension-manager
         firefox
         discord
+        
         eza
         fzf
         zoxide
         bat
+        tcsh
     ]) ++ [
         zen-browser.packages.${system}.default
     ];
@@ -41,17 +45,16 @@
             ll     = "eza -la --icons --git --group-directories-first";
             lt     = "eza --tree --icons --level=2";
             ls     = "eza --icons";
-            cat    = "bat --style=auto";
+            #cat    = "bat --style=auto";
             nrs    = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
             nfu    = "cd ~/epitech/free/nix-conf && sudo nix flake update && cd -";
             nfu-switch = "nfu && nrs";
             g = "git";
             kb     = "kubectl";
-            ki     = "kind"; 
+            ki     = "kind";
             ".."   = "cd ..";
             "..."  = "cd ../..";
             exegol = "~/.exegol-venv/bin/exegol";
-            epiclang = "~/.local/bin/epiclang";
         };
 
         plugins = [
@@ -62,6 +65,7 @@
         interactiveShellInit = ''
             set -g fish_greeting ""
             zoxide init fish | source
+            fish_add_path --path $HOME/.local/bin
 
             # Catppuccin Mocha — syntax fish
             set -g fish_color_normal          cdd6f4
@@ -77,6 +81,12 @@
             set -g fish_color_operator        f5c2e7
             set -g fish_color_escape          f2cdcd
             set -g fish_pager_color_progress  cba6f7
+
+            # Tide — Layout
+            set -U tide_left_prompt_items  os pwd git newline character
+            set -U tide_right_prompt_items cmd_duration time
+            set -U tide_prompt_add_newline_before false
+            set -U tide_prompt_min_cols 34
 
             # Tide — OS
             set -U tide_os_bg_color           cba6f7
@@ -153,6 +163,7 @@
 
     programs.ssh = {
         enable = true;
+        enableDefaultConfig = false;
         matchBlocks."*".addKeysToAgent = "yes";
     };
 
