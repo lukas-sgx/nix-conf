@@ -1,15 +1,19 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
-    imports = [ ./hardware-configuration.nix ];
+    imports = [
+        ./hardware-configuration.nix
+        inputs.impermanence.nixosModules.impermanence
+    ];
 
     nixpkgs.config.allowUnfree = true;
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.systemd-boot.configurationLimit = 2;
-
     boot.kernelPackages = pkgs.linuxPackages;
+
+    zramSwap.enable = true;
 
     networking.hostName = "nixos";
     networking.networkmanager.enable = true;
@@ -70,10 +74,39 @@
 
     programs.fish.enable = true;
 
+    environment.persistence."/persist" = {
+        hideMounts = true;
+        directories = [
+            "/var/log"
+            "/var/lib/bluetooth"
+            "/var/lib/nixos"
+            "/var/lib/systemd/coredump"
+            "/etc/NetworkManager/system-connections"
+            "/etc/ssh"
+        ];
+        users.lukas = {
+            directories = [
+                "Documents"
+                "Pictures"
+                "Videos"
+                ".ssh"
+                ".config/Code"
+                ".config/zen"
+                ".cache/zen"
+                ".mozilla"
+                ".local/share/keyrings"
+                "epitech"
+                "exegol-shared"
+            ];
+        };
+        files = [];
+    };
+
     users.users.lukas = {
         isNormalUser = true;
         description = "Lukas";
         extraGroups = [ "wheel" "networkmanager" "docker" ];
+        hashedPasswordFile = "/persist/passwords/lukas";
         shell = pkgs.fish;
     };
   
@@ -81,8 +114,8 @@
 
     services.accounts-daemon.enable = true;
     environment.etc."AccountsService/users/root".text = ''
-    	[User]
-    	SystemAccount=true
+        [User]
+        SystemAccount=true
     '';
 
     environment.systemPackages = with pkgs; [
@@ -94,6 +127,7 @@
         htop
         gnome-tweaks
         gnomeExtensions.appindicator
+        gnomeExtensions.system-monitor
         python3
         libgtop
 
