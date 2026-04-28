@@ -6,23 +6,19 @@
 
     home.packages = (with pkgs; [
         vscode
-
+        
         go
         gh
         openvpn
 
         kind
         kubectl
-        docker-compose
 
         gnome-extension-manager
-        firefox
-        discord
         
         eza
         fzf
         zoxide
-        bat
         tcsh
     ]) ++ [
         zen-browser.packages.${system}.default
@@ -45,9 +41,8 @@
             ll     = "eza -la --icons --git --group-directories-first";
             lt     = "eza --tree --icons --level=2";
             ls     = "eza --icons";
-            #cat    = "bat --style=auto";
             nrs    = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
-            nfu    = "cd ~/epitech/free/nix-conf && sudo nix flake update && cd -";
+            nfu    = "sudo nix flake update --flake /etc/nixos";
             nfu-switch = "nfu && nrs";
             g = "git";
             kb     = "kubectl";
@@ -158,6 +153,12 @@
 
             # FZF
             set -gx FZF_DEFAULT_OPTS "--color=bg+:#313244,bg:#1e1e2e,hl:#f38ba8,fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc,marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 --border rounded --prompt '❯ '"
+        
+            set -gx LIBRARY_PATH $HOME/.nix-profile/lib $LIBRARY_PATH
+            set -gx C_INCLUDE_PATH $HOME/.nix-profile/include $C_INCLUDE_PATH
+            set -gx CPATH $HOME/.nix-profile/include $CPATH
+            set -gx PKG_CONFIG_PATH $HOME/.nix-profile/lib/pkgconfig $PKG_CONFIG_PATH
+            set -gx LD_LIBRARY_PATH $HOME/.nix-profile/lib $LD_LIBRARY_PATH
         '';
     };
 
