@@ -7,7 +7,7 @@
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
-    boot.loader.systemd-boot.configurationLimit = 10;
+    boot.loader.systemd-boot.configurationLimit = 2;
 
     boot.kernelPackages = pkgs.linuxPackages;
 
@@ -15,7 +15,6 @@
     networking.networkmanager.enable = true;
 
     hardware.bluetooth.enable = true;
-    hardware.bluetooth.powerOnBoot = true;
     services.blueman.enable = true;
 
     services.fprintd.enable = true;
@@ -61,11 +60,6 @@
         pulse.enable = true;
     };
 
-    virtualisation.docker = {
-        enable = true;
-        enableOnBoot = true;
-    };
-
     services.openssh = {
         enable = true;
         settings = {
@@ -79,15 +73,11 @@
     users.users.lukas = {
         isNormalUser = true;
         description = "Lukas";
-        extraGroups = [ "wheel" "networkmanager" "docker" "vboxusers" ];
+        extraGroups = [ "wheel" "networkmanager" "docker" ];
         shell = pkgs.fish;
     };
   
     programs.dconf.enable = true;
- 
-    virtualisation.virtualbox.host = {
-        enable = true;
-    };
 
     services.accounts-daemon.enable = true;
     environment.etc."AccountsService/users/root".text = ''
@@ -96,9 +86,10 @@
     '';
 
     environment.systemPackages = with pkgs; [
+        nix-prefetch-github
+
         git
         curl
-        wget
         vim
         htop
         gnome-tweaks
@@ -106,23 +97,21 @@
         python3
         libgtop
 
-        nasm
-        gef
-        gdb
         gcc
         llvmPackages_20.clang
         llvmPackages_20.llvm
         gcovr
+        criterion
         valgrind
         gnumake42
         xhost
         gsettings-desktop-schemas
     ];
-
+    
     environment.variables = {
         GI_TYPELIB_PATH = "/run/current-system/sw/lib/girepository-1.0";
     };
-
+    
     hardware.enableRedistributableFirmware = true;
 
     nix.settings = {
