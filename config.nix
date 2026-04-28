@@ -111,7 +111,7 @@
     environment.variables = {
         GI_TYPELIB_PATH = "/run/current-system/sw/lib/girepository-1.0";
     };
-    
+
     hardware.enableRedistributableFirmware = true;
 
     nix.settings = {
@@ -129,5 +129,5 @@
         nerd-fonts.jetbrains-mono
     ];
 
-    system.stateVersion = "26.05";
+    system.stateVersion = "25.11";
 }
