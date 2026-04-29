@@ -141,6 +141,8 @@
         xhost
         gsettings-desktop-schemas
     ];
+
+    virtualisation.docker.enable = true;
     
     environment.variables = {
         GI_TYPELIB_PATH = "/run/current-system/sw/lib/girepository-1.0";
