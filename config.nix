@@ -131,6 +131,7 @@
         python3
         libgtop
 
+        gnupg
         gcc
         llvmPackages_20.clang
         llvmPackages_20.llvm
@@ -164,6 +165,15 @@
     fonts.packages = with pkgs; [
         nerd-fonts.jetbrains-mono
     ];
+
+    programs.gnupg.agent = {
+        enable = true;
+        pinentryPackage = pkgs.pinentry-gnome3;
+        settings = {
+            default-cache-ttl = 34560000;
+            max-cache-ttl = 34560000;
+        };
+    };
 
     system.stateVersion = "26.05";
 }
