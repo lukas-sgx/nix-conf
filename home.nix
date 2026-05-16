@@ -6,6 +6,7 @@
 
     home.packages = (with pkgs; [
         vscode
+        zed-editor
         
         go
         gh
@@ -14,12 +15,15 @@
         kind
         kubectl
 
+        rustup
+
         gnome-extension-manager
-        
+        tmux 
         eza
         fzf
         zoxide
-        tcsh
+        cargo-watch
+        microfetch
     ]) ++ [
         zen-browser.packages.${system}.default
     ];
@@ -29,8 +33,11 @@
         settings = {
             user.name = "lukas-sgx";
             user.email = "lukas.soigneux@epitech.eu";
+            user.signingkey = "02155E89B27D5FFD";
             init.defaultBranch = "main";
             pull.rebase = false;
+            commit.gpgsign = true;
+            tag.gpgSign = true;
         };
     };
 
@@ -159,6 +166,11 @@
             set -gx CPATH $HOME/.nix-profile/include $CPATH
             set -gx PKG_CONFIG_PATH $HOME/.nix-profile/lib/pkgconfig $PKG_CONFIG_PATH
             set -gx LD_LIBRARY_PATH $HOME/.nix-profile/lib $LD_LIBRARY_PATH
+
+            if tty > /dev/null 2>&1
+                set -x GPG_TTY (tty)
+            end
+            microfetch
         '';
     };
 
