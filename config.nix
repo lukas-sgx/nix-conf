@@ -1,5 +1,8 @@
 { config, pkgs, lib, inputs, ... }:
 
+let
+    env = import ./env.nix;
+in
 {
     imports = [
         ./hardware-configuration.nix
@@ -13,10 +16,10 @@
     boot.loader.systemd-boot.configurationLimit = 2;
     boot.kernelPackages = pkgs.linuxPackages;
 
-    zramSwap.enable = true;
-
-    networking.hostName = "nixos";
+    networking.hostName = env.hostName;
     networking.networkmanager.enable = true;
+    networking.networkmanager.dns = "none";
+    networking.nameservers = [ "1.1.1.1" "1.0.0.1" ];
 
     hardware.bluetooth.enable = true;
     services.blueman.enable = true;
@@ -49,7 +52,7 @@
 
     services.displayManager.gdm.enable = true;
     services.desktopManager.gnome.enable = true;
-    services.displayManager.autoLogin.user = "Lukas";
+    services.displayManager.autoLogin.user = env.descriptionName;
     services.xserver.xkb = {
         layout = "fr";
         variant = "";
@@ -84,7 +87,7 @@
             "/etc/NetworkManager/system-connections"
             "/etc/ssh"
         ];
-        users.lukas = {
+        users.${env.username} = {
             directories = [
                 "Documents"
                 "Pictures"
@@ -96,17 +99,15 @@
                 ".mozilla"
                 ".local/share/keyrings"
                 "epitech"
-                "exegol-shared"
             ];
         };
         files = [];
     };
 
-    users.users.lukas = {
+    users.users.${env.username} = {
         isNormalUser = true;
-        description = "Lukas";
+        description = env.descriptionName;
         extraGroups = [ "wheel" "networkmanager" "docker" ];
-        hashedPasswordFile = "/persist/passwords/lukas";
         shell = pkgs.fish;
     };
   
@@ -139,7 +140,6 @@
         criterion
         valgrind
         gnumake42
-        xhost
         gsettings-desktop-schemas
     ];
 
@@ -175,5 +175,5 @@
         };
     };
 
-    system.stateVersion = "26.05";
+    system.stateVersion = env.nixVersion;
 }

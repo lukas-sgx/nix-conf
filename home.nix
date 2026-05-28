@@ -1,16 +1,22 @@
 { config, pkgs, zen-browser, system, lib, inputs, ... }:
+
+let
+    env = import ./env.nix;
+in  
 {
-    home.username = "lukas";
-    home.homeDirectory = "/home/lukas";
-    home.stateVersion = "26.05";
+    home.username = env.username;
+    home.homeDirectory = env.homeDir;
+    home.stateVersion = env.nixVersion;
 
     home.packages = (with pkgs; [
         vscode
         zed-editor
-        
+        discord
+        devenv
         go
         gh
-        openvpn
+        qemu
+	      openvpn
 
         kind
         kubectl
@@ -31,19 +37,18 @@
     programs.git = {
         enable = true;
         settings = {
-            user.name = "lukas-sgx";
-            user.email = "lukas.soigneux@epitech.eu";
-            user.signingkey = "02155E89B27D5FFD";
+            user.name = env.gitUser;
+            user.email = env.gitUser;
+            # user.signingkey = ;
             init.defaultBranch = "main";
             pull.rebase = false;
-            commit.gpgsign = true;
-            tag.gpgSign = true;
+            # commit.gpgsign = true;
+            # tag.gpgSign = true;
         };
     };
 
     programs.fish = {
         enable = true;
-
         shellAliases = {
             ll     = "eza -la --icons --git --group-directories-first";
             lt     = "eza --tree --icons --level=2";
@@ -56,7 +61,6 @@
             ki     = "kind";
             ".."   = "cd ..";
             "..."  = "cd ../..";
-            exegol = "~/.exegol-venv/bin/exegol";
         };
 
         plugins = [
@@ -177,7 +181,7 @@
     programs.ssh = {
         enable = true;
         enableDefaultConfig = false;
-        matchBlocks."*".addKeysToAgent = "yes";
+        settings."*".addKeysToAgent = "yes";
     };
 
     programs.home-manager.enable = true;
@@ -195,4 +199,33 @@
         videos = "${config.home.homeDirectory}/Videos";
     };
 
+    xdg.desktopEntries."dev.zed.Zed" = {
+        name = "Zed";
+        genericName = "Text Editor";
+        comment = "A high-performance, multiplayer code editor.";
+        exec = "zeditor %U";
+        icon = "/home/lukas/.local/share/icons/zed.svg";
+        categories = [ "Utility" "TextEditor" "Development" "IDE" ];
+        mimeType = [ "text/plain" "application/x-zerosize" "x-scheme-handler/zed" ];
+        startupNotify = true;
+        actions = {
+            "NewWorkspace" = {
+                exec = "zeditor --new %U";
+                name = "Open a new workspace";
+            };
+        };
+    };
+    xdg.desktopEntries."org.gnome.Console" = {
+        name = "Console";
+        exec = "kgx";
+        icon = "/home/lukas/.local/share/icons/gnome-terminal-custom.png";
+        categories = [ "System" "TerminalEmulator" ];
+    };
+    xdg.desktopEntries."org.gnome.Nautilus" = {
+        name = "Files";
+        exec = "nautilus --new-window %U";
+        icon = "/home/lukas/.local/share/icons/claude.png";
+        categories = [ "System" "FileManager" ];
+        mimeType = [ "inode/directory" ];
+    };
 }

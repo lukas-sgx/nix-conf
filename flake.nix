@@ -17,6 +17,7 @@
     outputs = inputs @ { self, nixpkgs, home-manager, zen-browser, ... }:
     let
         system = "x86_64-linux";
+        env = import ./env.nix;
     in {
         nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
             inherit system;
@@ -27,7 +28,7 @@
                     home-manager.useGlobalPkgs = true;
                     home-manager.useUserPackages = true;
                     home-manager.backupFileExtension = "backup";
-                    home-manager.users.lukas = import ./home.nix;
+                    home-manager.users.${env.username} = import ./home.nix;
                     home-manager.extraSpecialArgs = { inherit zen-browser system inputs; };
                 }
             ];
