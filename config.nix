@@ -1,72 +1,46 @@
 { config, pkgs, lib, inputs, ... }:
 
-let
-    env = import ./env.nix;
-in
-{
+let env = import ./env.nix;
+in {
     imports = [
-        ./hardware-configuration.nix
-        inputs.impermanence.nixosModules.impermanence
+      ./hardware-configuration.nix
+      inputs.impermanence.nixosModules.impermanence
+      ./modules/boot.nix
+      ./modules/persist.nix
+      ./modules/hyprland.nix
+      ./modules/sddm.nix
+      ./modules/audio.nix
     ];
-
+  
     nixpkgs.config.allowUnfree = true;
-
-    boot.loader.systemd-boot.enable = true;
-    boot.loader.efi.canTouchEfiVariables = true;
-    boot.loader.systemd-boot.configurationLimit = 2;
-    boot.kernelPackages = pkgs.linuxPackages;
-
+  
     networking.hostName = env.hostName;
     networking.networkmanager.enable = true;
     networking.networkmanager.dns = "none";
     networking.nameservers = [ "1.1.1.1" "1.0.0.1" ];
-
+  
     hardware.bluetooth.enable = true;
     services.blueman.enable = true;
-
+  
     services.fprintd.enable = true;
-
     security.pam.services = {
-        login.fprintAuth = lib.mkForce true;
-        sudo.fprintAuth = false;
+        login.fprintAuth    = lib.mkForce true;
+        sudo.fprintAuth     = false;
         polkit-1.fprintAuth = true;
-        gdm-fingerprint.fprintAuth = true;
     };
-
-    hardware.graphics = {
-        enable = true;
-        extraPackages = with pkgs; [
-            intel-media-driver
-            intel-vaapi-driver
-            libva-vdpau-driver
-            libvdpau-va-gl
-        ];
-    };
-
+  
     services.thermald.enable = true;
     powerManagement.enable = true;
-
+  
     time.timeZone = "Europe/Paris";
     i18n.defaultLocale = "fr_FR.UTF-8";
     console.keyMap = "fr";
-
-    services.displayManager.gdm.enable = true;
-    services.desktopManager.gnome.enable = true;
-    services.displayManager.autoLogin.user = env.descriptionName;
+  
     services.xserver.xkb = {
         layout = "fr";
         variant = "";
     };
-
-    services.pulseaudio.enable = false;
-    security.rtkit.enable = true;
-    services.pipewire = {
-        enable = true;
-        alsa.enable = true;
-        alsa.support32Bit = true;
-        pulse.enable = true;
-    };
-
+  
     services.openssh = {
         enable = true;
         settings = {
@@ -74,106 +48,52 @@ in
             PermitRootLogin = "no";
         };
     };
-
+  
     programs.fish.enable = true;
-
-    environment.persistence."/persist" = {
-        hideMounts = true;
-        directories = [
-            "/var/log"
-            "/var/lib/bluetooth"
-            "/var/lib/nixos"
-            "/var/lib/systemd/coredump"
-            "/etc/NetworkManager/system-connections"
-            "/etc/ssh"
-        ];
-        users.${env.username} = {
-            directories = [
-                "Documents"
-                "Pictures"
-                "Videos"
-                ".ssh"
-                ".config/Code"
-                ".config/zen"
-                ".cache/zen"
-                ".mozilla"
-                ".local/share/keyrings"
-                "epitech"
-            ];
-        };
-        files = [];
-    };
-
+    programs.dconf.enable = true;
+  
     users.users.${env.username} = {
-        isNormalUser = true;
-        description = env.descriptionName;
-        extraGroups = [ "wheel" "networkmanager" "docker" ];
-        shell = pkgs.fish;
+      isNormalUser = true;
+      description = env.descriptionName;
+      extraGroups = [ "wheel" "networkmanager" "docker" "video" "input" ];
+      shell = pkgs.fish;
     };
   
-    programs.dconf.enable = true;
-
-    services.accounts-daemon.enable = true;
-    environment.etc."AccountsService/users/root".text = ''
-        [User]
-        SystemAccount=true
-    '';
-
     environment.systemPackages = with pkgs; [
-        nix-prefetch-github
-
-        git
-        curl
-        vim
-        htop
-        gnome-tweaks
-        gnomeExtensions.appindicator
-        gnomeExtensions.system-monitor
-        python3
-        libgtop
-
-        gnupg
-        gcc
+        git curl vim htop
+        python3 gnupg gcc
         llvmPackages_20.clang
         llvmPackages_20.llvm
-        gcovr
-        criterion
-        valgrind
+        gcovr criterion valgrind
         gnumake42
-        gsettings-desktop-schemas
+        nix-prefetch-github
     ];
-
+  
     virtualisation.docker.enable = true;
-    
-    environment.variables = {
-        GI_TYPELIB_PATH = "/run/current-system/sw/lib/girepository-1.0";
-    };
-
+  
     hardware.enableRedistributableFirmware = true;
-
+  
     nix.settings = {
-        experimental-features = [ "nix-command" "flakes" ];
-        auto-optimise-store = true;
+      experimental-features = [ "nix-command" "flakes" ];
+      auto-optimise-store = true;
     };
-
+  
     nix.gc = {
-        automatic = true;
-        dates = "weekly";
-        options = "--delete-older-than 7d";
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
     };
-
-    fonts.packages = with pkgs; [
-        nerd-fonts.jetbrains-mono
-    ];
-
+  
+    fonts.packages = with pkgs; [ nerd-fonts.jetbrains-mono ];
+  
     programs.gnupg.agent = {
         enable = true;
-        pinentryPackage = pkgs.pinentry-gnome3;
+        pinentryPackage = pkgs.pinentry-curses; # ← plus de gnome3
         settings = {
-            default-cache-ttl = 34560000;
-            max-cache-ttl = 34560000;
+          default-cache-ttl = 34560000;
+          max-cache-ttl = 34560000;
         };
     };
-
+  
     system.stateVersion = env.nixVersion;
 }

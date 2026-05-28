@@ -61,6 +61,7 @@ in
             ki     = "kind";
             ".."   = "cd ..";
             "..."  = "cd ../..";
+            "-"    = "cd -";
         };
 
         plugins = [
@@ -204,28 +205,13 @@ in
         genericName = "Text Editor";
         comment = "A high-performance, multiplayer code editor.";
         exec = "zeditor %U";
-        icon = "/home/lukas/.local/share/icons/zed.svg";
+        icon = "${config.home.homeDirectory}/.local/share/icons/zed.svg";
         categories = [ "Utility" "TextEditor" "Development" "IDE" ];
         mimeType = [ "text/plain" "application/x-zerosize" "x-scheme-handler/zed" ];
         startupNotify = true;
-        actions = {
-            "NewWorkspace" = {
-                exec = "zeditor --new %U";
-                name = "Open a new workspace";
-            };
+        actions."NewWorkspace" = {
+            exec = "zeditor --new %U";
+            name = "Open a new workspace";
         };
-    };
-    xdg.desktopEntries."org.gnome.Console" = {
-        name = "Console";
-        exec = "kgx";
-        icon = "/home/lukas/.local/share/icons/gnome-terminal-custom.png";
-        categories = [ "System" "TerminalEmulator" ];
-    };
-    xdg.desktopEntries."org.gnome.Nautilus" = {
-        name = "Files";
-        exec = "nautilus --new-window %U";
-        icon = "/home/lukas/.local/share/icons/claude.png";
-        categories = [ "System" "FileManager" ];
-        mimeType = [ "inode/directory" ];
     };
 }
