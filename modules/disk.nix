@@ -12,11 +12,19 @@
         neededForBoot = true;
     };
 
-    fileSystems."/boot" = {
-        device  = "/dev/disk/by-label/BOOT";
-        fsType  = "vfat";
-        options = [ "fmask=0077" "dmask=0077" ];
+    fileSystems."/swap" = {
+        device  = "/dev/disk/by-label/nixos";
+        fsType  = "btrfs";
+        options = [ "subvol=@swap" "noatime" ];
     };
 
-    swapDevices = [{ device = "/dev/disk/by-label/swap"; }];
+    fileSystems."/boot" = {
+        device  = "/dev/disk/by-label/ESP";
+        fsType  = "vfat";
+        options = [ "fmask=0077" "dmask=0077" "umask=0077" ];
+    };
+
+    swapDevices = [{
+        device = "/swap/swapfile";
+    }];
 }

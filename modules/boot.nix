@@ -3,6 +3,9 @@
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.systemd-boot.configurationLimit = 2;
     boot.kernelPackages = pkgs.linuxPackages;
+    
+    boot.resumeDevice = "/dev/disk/by-label/swap";
+    boot.kernel.sysctl."vm.swappiness" = 10;
   
     boot.initrd.postDeviceCommands = lib.mkAfter ''
         mkdir /btrfs_tmp

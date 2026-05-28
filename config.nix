@@ -6,6 +6,7 @@ in {
       ./hardware-configuration.nix
       inputs.impermanence.nixosModules.impermanence
       ./modules/boot.nix
+      ./modules/disk.nix
       ./modules/persist.nix
       ./modules/hyprland.nix
       ./modules/sddm.nix
