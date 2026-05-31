@@ -12,32 +12,16 @@ in
         ./modules/fingerprint.nix
         ./modules/network.nix
         ./modules/persist.nix
+        ./modules/desktop_manager.nix
+        ./modules/gpg.nix
+        ./modules/locale.nix
+        ./modules/linker.nix
     ];
 
     nixpkgs.config.allowUnfree = true;
 
     services.thermald.enable = true;
     powerManagement.enable = true;
-
-    time.timeZone = "Europe/Paris";
-    i18n.defaultLocale = "fr_FR.UTF-8";
-    console.keyMap = "fr";
-
-    services.displayManager.gdm.enable = true;
-    services.desktopManager.gnome.enable = true;
-    services.displayManager.autoLogin.user = env.descriptionName;
-    services.xserver.xkb = {
-        layout = "fr";
-        variant = "";
-    };
-
-    services.openssh = {
-        enable = true;
-        settings = {
-            PasswordAuthentication = false;
-            PermitRootLogin = "no";
-        };
-    };
 
     programs.fish.enable = true;
 
@@ -47,25 +31,18 @@ in
         extraGroups = [ "wheel" "networkmanager" "docker" ];
         shell = pkgs.fish;
     };
-  
-    programs.dconf.enable = true;
 
     services.accounts-daemon.enable = true;
 
     environment.systemPackages = with pkgs; [
-        nix-prefetch-github
-
         nh
         git
         curl
         vim
-        htop
-        gnome-tweaks
-        gnomeExtensions.appindicator
-        gnomeExtensions.system-monitor
-        libgtop
-
         gnupg
+        neovim
+        htop
+
         gcc
         llvmPackages_20.clang
         llvmPackages_20.llvm
@@ -73,14 +50,9 @@ in
         criterion
         valgrind
         gnumake42
-        gsettings-desktop-schemas
     ];
 
     virtualisation.docker.enable = true;
-    
-    environment.variables = {
-        GI_TYPELIB_PATH = "/run/current-system/sw/lib/girepository-1.0";
-    };
 
     hardware.enableRedistributableFirmware = true;
 
@@ -97,21 +69,6 @@ in
 
     fonts.packages = with pkgs; [
         nerd-fonts.jetbrains-mono
-    ];
-
-    programs.gnupg.agent = {
-        enable = true;
-        pinentryPackage = pkgs.pinentry-gnome3;
-        settings = {
-            default-cache-ttl = 34560000;
-            max-cache-ttl = 34560000;
-        };
-    };
-
-    programs.nix-ld.enable = true;
-    programs.nix-ld.libraries = with pkgs; [
-        stdenv.cc.cc.lib
-        zlib
     ];
 
     programs.direnv.enable = true;
