@@ -38,7 +38,7 @@ in
         enable = true;
         settings = {
             user.name = env.gitUser;
-            user.email = env.gitUser;
+            user.email = env.gitEmail;
             user.signingkey = "19F45BF088FD1431";
             init.defaultBranch = "main";
             pull.rebase = false;
