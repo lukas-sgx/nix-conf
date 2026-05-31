@@ -20,8 +20,6 @@
     kind
     kubectl
 
-    llvmPackages_20.clang
-    llvmPackages_20.llvm
     gcovr
     criterion
     valgrind

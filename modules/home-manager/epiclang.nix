@@ -21,7 +21,11 @@ let
   };
 in
 {
-  home.packages = [ epiclang ];
+  home.packages = with pkgs; [
+    epiclang
+    llvmPackages_20.clang
+    llvmPackages_20.llvm
+  ];
 
   home.file.".local/lib/epiclang/plugins".source =
       "${epiclang}/lib/epiclang/plugins";
