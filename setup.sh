@@ -1,6 +1,6 @@
-/etc/profiles/per-user/lukas/bin/fish
+/usr/bin/env fish
 
-#shell install
+#fish config
 tide configure --auto \
     --style=Rainbow \
     --prompt_colors='True color' \
@@ -18,8 +18,3 @@ tide configure --auto \
 #exegol install
 # python3 -m venv ~/.exegol-venv
 # ~/.exegol-venv/bin/pip install exegol
-
-#epiclang install
-git clone https://github.com/lukas-sgx/Epifaster.git
-cd Epifaster
-./setup.sh

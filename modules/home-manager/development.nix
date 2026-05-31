@@ -1,5 +1,9 @@
 { config, pkgs, zen-browser, system, lib, inputs, ... }:
 {
+  imports = [
+    ./epiclang.nix
+  ];
+  
   home.packages = (with pkgs; [
     vscode
     zed-editor
