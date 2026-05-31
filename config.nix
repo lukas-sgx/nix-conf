@@ -42,14 +42,6 @@ in
         gnupg
         neovim
         htop
-
-        gcc
-        llvmPackages_20.clang
-        llvmPackages_20.llvm
-        gcovr
-        criterion
-        valgrind
-        gnumake42
     ];
 
     virtualisation.docker.enable = true;
@@ -70,8 +62,6 @@ in
     fonts.packages = with pkgs; [
         nerd-fonts.jetbrains-mono
     ];
-
-    programs.direnv.enable = true;
 
     system.stateVersion = env.nixVersion;
 }
