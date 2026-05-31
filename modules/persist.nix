@@ -1,32 +1,35 @@
-{ lib, ... }:
-let env = import ../env.nix;
+{ self, pkgs, inputs, lib, config, ... }:
+let
+  env = import ../env.nix;
 in {
-    environment.persistence."/persist" = {
-        hideMounts = true;
+  imports = [
+    inputs.impermanence.nixosModules.impermanence
+  ];
+  
+  environment.persistence."/persist" = {
+    hideMounts = true;
+    directories = [
+        "/var/log"
+        "/var/lib/bluetooth"
+        "/var/lib/nixos"
+        "/var/lib/systemd/coredump"
+        "/etc/NetworkManager/system-connections"
+        "/etc/ssh"
+    ];
+    users.${env.username} = {
         directories = [
-          "/var/log"
-          "/var/lib/bluetooth"
-          "/var/lib/nixos"
-          "/var/lib/systemd/coredump"
-          "/var/lib/docker"
-          "/etc/NetworkManager/system-connections"
-          "/etc/ssh"
+            "Documents"
+            "Pictures"
+            "Videos"
+            ".ssh"
+            ".config/Code"
+            ".config/zen"
+            ".cache/zen"
+            ".mozilla"
+            ".local/share/keyrings"
+            "epitech"
         ];
-        users.${env.username} = {
-            directories = [
-              "Documents"
-              "Pictures"
-              "Videos"
-              "Downloads"
-              ".ssh"
-              ".gnupg"
-              ".config"
-              ".cache/zen"
-              ".mozilla"
-              ".local/share/keyrings"
-              ".local/share/gnupg"
-              "epitech"
-            ];
-        };
     };
+    files = [];
+  };
 }
