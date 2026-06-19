@@ -12,5 +12,5 @@
         "kernel.kptr_restrict" = 2;
         "kernel.dmesg_restrict" = 1;
         "net.ipv4.conf.all.rp_filter" = 1;
-  };
+    };
 }
