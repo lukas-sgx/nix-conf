@@ -5,7 +5,8 @@ in {
     networking.firewall.enable = true;
     networking.hostName = env.hostName;
     networking.networkmanager.enable = true;
-    
+    networking.networkmanager.dns = lib.mkForce "none";
+
     services.resolved = {
         enable = true;
         settings.Resolve = {
