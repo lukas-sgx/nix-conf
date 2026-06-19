@@ -63,5 +63,7 @@ in
         nerd-fonts.jetbrains-mono
     ];
 
+    programs.firejail.enable = true;
+
     system.stateVersion = env.nixVersion;
 }
