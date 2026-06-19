@@ -4,7 +4,6 @@ let
 in {
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
-  services.displayManager.autoLogin.user = env.descriptionName;
   services.xserver.xkb = {
       layout = "fr";
       variant = "";
