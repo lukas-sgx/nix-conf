@@ -4,5 +4,6 @@
       enable = true;
       enableDefaultConfig = false;
       settings."*".addKeysToAgent = "yes";
+      settings."*".hashKnownHosts = "yes";
   };
 }
