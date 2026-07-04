@@ -5,19 +5,16 @@
   ];
   
   home.packages = (with pkgs; [
-    vscode
     zed-editor
 
     devenv
     gh
-    openvpn
     go
     rustup
     cargo-watch
     tmux
     qemu
 
-    kind
     kubectl
 
     gcovr
