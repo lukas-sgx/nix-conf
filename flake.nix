@@ -1,37 +1,49 @@
 {
-    description = "NixOS config - Laptop";
+  description = "NixOS config - Laptop";
 
-    inputs = {
-        nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-        impermanence.url = "github:nix-community/impermanence";
-        home-manager = {
-            url = "github:nix-community/home-manager";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
-        zen-browser = {
-            url = "github:0xc000022070/zen-browser-flake";
-            inputs.nixpkgs.follows = "nixpkgs";
-        };
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    impermanence.url = "github:nix-community/impermanence";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
-    outputs = inputs @ { self, nixpkgs, home-manager, zen-browser, ... }:
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      home-manager,
+      zen-browser,
+      ...
+    }:
     let
-        system = "x86_64-linux";
-        env = import ./env.nix;
-    in {
-        nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-            inherit system;
-            specialArgs = { inherit self inputs; };
-            modules = [
-                ./config.nix
-                home-manager.nixosModules.home-manager {
-                    home-manager.useGlobalPkgs = true;
-                    home-manager.useUserPackages = true;
-                    home-manager.backupFileExtension = "backup";
-                    home-manager.users.${env.username} = import ./home.nix;
-                    home-manager.extraSpecialArgs = { inherit zen-browser system inputs; };
-                }
-            ];
-        };
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+      env = import ./env.nix;
+    in
+    {
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = { inherit self inputs; };
+        modules = [
+          ./config.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.users.${env.username} = import ./home.nix;
+            home-manager.extraSpecialArgs = { inherit zen-browser system inputs; };
+          }
+        ];
+      };
+
+      formatter.${system} = pkgs.nixfmt-tree;
     };
 }
