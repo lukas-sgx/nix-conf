@@ -1,10 +1,18 @@
-{ self, pkgs, inputs, lib, config, ... }: {
+{
+  self,
+  pkgs,
+  inputs,
+  lib,
+  config,
+  ...
+}:
+{
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
   };
 }

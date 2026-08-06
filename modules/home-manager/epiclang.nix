@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   epiclang = pkgs.rustPlatform.buildRustPackage {
@@ -15,8 +20,8 @@ let
     cargoHash = "sha256-LoSEGRgS/AuGk2KCEZKqDskPm083Jj59OtBShvBWxtQ=";
 
     postInstall = ''
-        mkdir -p $out/lib/epiclang/plugins
-        cp $src/plugins/*.so $out/lib/epiclang/plugins/
+      mkdir -p $out/lib/epiclang/plugins
+      cp $src/plugins/*.so $out/lib/epiclang/plugins/
     '';
   };
 in
@@ -24,9 +29,9 @@ in
   home.packages = with pkgs; [
     epiclang
     llvmPackages_20.clang
+    llvmPackages_20.clang-tools
     llvmPackages_20.llvm
   ];
 
-  home.file.".local/lib/epiclang/plugins".source =
-      "${epiclang}/lib/epiclang/plugins";
+  home.file.".local/lib/epiclang/plugins".source = "${epiclang}/lib/epiclang/plugins";
 }
