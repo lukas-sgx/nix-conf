@@ -46,20 +46,25 @@
         "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace";
         "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace";
         "workbench.secondarySidebar.defaultVisibility" = "hidden";
+        "workbench.layoutControl.enabled" = false;
         "workbench.startupEditor" = "none";
-        "chat.commandCenter.enabled" = false;
+        "workbench.colorTheme" = "Catppuccin Mocha";
+
         "files.autoSave" = "afterDelay";
         "files.autoSaveDelay" = 1000;
-        "workbench.layoutControl.enabled" = false;
-        "workbench.colorTheme" = "Catppuccin Mocha";
+
         "window.titleBarStyle" = "custom";
         "window.zoomLevel" = 0.5;
+
         "github.copilot.enable" = {
           "*" = false;
         };
+        "chat.commandCenter.enabled" = false;
         "workbench.commandPalette.experimental.suggestCommands" = false;
         "editor.inlineSuggest.enabled" = false;
         "chat.experimental.detectParticipant.enabled" = false;
+
+        "git.enableSmartCommit" = true;
       };
       extensions =
         with pkgs.vscode-extensions;
