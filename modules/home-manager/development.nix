@@ -65,6 +65,7 @@
         "chat.experimental.detectParticipant.enabled" = false;
 
         "git.enableSmartCommit" = true;
+        "git.confirmSync" = false;
       };
       extensions =
         with pkgs.vscode-extensions;
