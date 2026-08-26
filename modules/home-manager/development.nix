@@ -36,36 +36,37 @@
 
   programs.vscode = {
     enable = true;
-    package = pkgs.vscode.overrideAttrs (old: {
-      postFixup = (old.postFixup or "") + ''
-        wrapProgram $out/bin/code --add-flags "--no-sandbox"
-      '';
-    });
+    package = pkgs.vscode;
     profiles.default = {
       userSettings = {
         "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace";
         "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace";
+        
         "workbench.secondarySidebar.defaultVisibility" = "hidden";
         "workbench.layoutControl.enabled" = false;
         "workbench.startupEditor" = "none";
         "workbench.colorTheme" = "Catppuccin Mocha";
+        "workbench.iconTheme" = "catppuccin-perfect-macchiato";
 
         "files.autoSave" = "afterDelay";
         "files.autoSaveDelay" = 1000;
 
         "window.titleBarStyle" = "custom";
-        "window.zoomLevel" = 0.5;
+        "window.zoomLevel" = 0.4;
 
         "github.copilot.enable" = {
           "*" = false;
         };
         "chat.commandCenter.enabled" = false;
+        "chat.titleBar.openInAgentsWindow.enabled" = false;
+
         "workbench.commandPalette.experimental.suggestCommands" = false;
         "editor.inlineSuggest.enabled" = false;
-        "chat.experimental.detectParticipant.enabled" = false;
 
         "git.enableSmartCommit" = true;
         "git.confirmSync" = false;
+
+        "security.workspace.trust.enabled" = true;
       };
       extensions =
         with pkgs.vscode-extensions;
