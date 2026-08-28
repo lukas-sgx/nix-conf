@@ -57,6 +57,11 @@
         "github.copilot.enable" = {
           "*" = false;
         };
+
+        "files.exclude" = {
+          "**/*.o" = true;
+        };
+
         "chat.commandCenter.enabled" = false;
         "chat.titleBar.openInAgentsWindow.enabled" = false;
 
