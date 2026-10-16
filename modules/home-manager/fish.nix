@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  zen-browser,
   system,
   lib,
   inputs,
@@ -21,9 +20,9 @@
   programs.fish = {
     enable = true;
     shellAliases = {
-      ll = "eza -la --icons --git --group-directories-first";
-      lt = "eza --tree --icons --level=2";
-      ls = "eza --icons";
+      ll = "eza -la --icons always --git --group-directories-first";
+      lt = "eza --tree --icons always --level=2";
+      ls = "eza --icons always";
       nrs = "sudo nixos-rebuild switch --flake /etc/nixos#nixos";
       nrs-copy = "sudo rsync -a --delete --exclude='.git' --exclude='flake.lock' --exclude='setup.sh' --exclude='hardware-configuration.nix' /home/lukas/epitech/free/nix-conf/ /etc/nixos && nrs";
       nfu = "sudo nix flake update --flake /etc/nixos";
