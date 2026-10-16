@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  zen-browser,
   system,
   lib,
   inputs,
