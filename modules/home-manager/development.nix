@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  zen-browser,
   system,
   lib,
   inputs,
@@ -26,6 +25,7 @@
       qemu
 
       kubectl
+      kubernetes-helm
 
       gcovr
       criterion
@@ -41,6 +41,7 @@
       userSettings = {
         "editor.fontFamily" = "'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace";
         "terminal.integrated.fontFamily" = "'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace";
+        "terminal.integrated.stickyScroll.enabled" = false;
         
         "workbench.secondarySidebar.defaultVisibility" = "hidden";
         "workbench.layoutControl.enabled" = false;
@@ -62,8 +63,12 @@
           "**/*.o" = true;
         };
 
-        "chat.commandCenter.enabled" = false;
-        "chat.titleBar.openInAgentsWindow.enabled" = false;
+        "files.associations" = {
+          "*.h" = "c";
+        };
+
+        # "chat.commandCenter.enabled" = false;
+        # "chat.titleBar.openInAgentsWindow.enabled" = false;
 
         "workbench.commandPalette.experimental.suggestCommands" = false;
         "editor.inlineSuggest.enabled" = false;
@@ -72,6 +77,8 @@
         "git.confirmSync" = false;
 
         "security.workspace.trust.enabled" = true;
+
+        "discord.detailsEditing" = "Editing {file_name} - on '{git_branch}'";
       };
       extensions =
         with pkgs.vscode-extensions;

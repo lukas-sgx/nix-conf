@@ -54,6 +54,7 @@ in
     htop
     adwaita-icon-theme
     gnome-themes-extra
+    gcc
   ];
 
   virtualisation.docker.enable = true;

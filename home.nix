@@ -24,15 +24,14 @@ in
     ./modules/home-manager/development.nix
   ];
 
-  home.packages =
-    (with pkgs; [
-      discord
+  home.packages = (with pkgs; [
+    discord
+    firefox
 
-      gnome-extension-manager
-    ])
-    ++ [
-      zen-browser.packages.${system}.default
-    ];
+    gnome-extension-manager
+  ]) ++ [
+    zen-browser.packages.${system}.default
+  ];
 
   programs.home-manager.enable = true;
 }
