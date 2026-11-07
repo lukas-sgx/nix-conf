@@ -14,24 +14,9 @@ in
   networking.hostName = env.hostName;
   networking.networkmanager.enable = true;
 
-  networking.networkmanager.dns = "systemd-resolved";
+  networking.networkmanager.dns = "default";
 
-  services.resolved = {
-    enable = true;
-    dnsovertls = "opportunistic";
-    dnssec = "allow-downgrade";
-    
-    settings.Resolve = {
-      MulticastDNS = "no";
-      LLMNR = "no";
-      Domains = [ "~." ];
-    };
-  };
-
-  networking.nameservers = [
-    "1.1.1.1#cloudflare-dns.com"
-    "1.0.0.1#cloudflare-dns.com"
-  ];
+  services.resolved.enable = false;
 
   networking.networkmanager.wifi.macAddress = "stable";
   networking.networkmanager.ethernet.macAddress = "stable";
