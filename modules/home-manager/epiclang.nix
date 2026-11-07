@@ -6,32 +6,47 @@
 }:
 
 let
-  epiclang = pkgs.rustPlatform.buildRustPackage {
+  epiclang = pkgs.rustPlatform.buildRustPackage rec {
     pname = "epiclang";
-    version = "0.1.0";
+    version = "1.1.3";
 
     src = pkgs.fetchFromGitHub {
       owner = "EpiSdk";
       repo = "EpiFaster";
-      rev = "0d204fe62bf90498644e5f24eb8eb53616e45d6c";
-      hash = "sha256-klTqsW6pzrlxoRhh/4DoVtMYEOkt62Hu+o4SKobJAV4=";
+      tag = "v${version}";
+      hash = "sha256-SLVgpWEXoIl/DuQkveRx3xSj6xfD2W/qvmx0H9d4b5M=";
     };
 
     cargoHash = "sha256-LoSEGRgS/AuGk2KCEZKqDskPm083Jj59OtBShvBWxtQ=";
+    nativeBuildInputs = [ pkgs.patchelf ];
+
 
     postInstall = ''
       mkdir -p $out/lib/epiclang/plugins
-      cp $src/plugins/*.so $out/lib/epiclang/plugins/
+      if [ -d "plugins" ]; then
+        cp plugins/*.so $out/lib/epiclang/plugins/
+      elif [ -d "$src/plugins" ]; then
+        cp $src/plugins/*.so $out/lib/epiclang/plugins/
+      fi
+
+      for plugin in $out/lib/epiclang/plugins/*.so; do
+        if [ -f "$plugin" ]; then
+          echo "Patching RPATH for $plugin..."
+          patchelf --set-rpath "${lib.makeLibraryPath [ pkgs.stdenv.cc.cc.lib pkgs.llvmPackages_21.clang-unwrapped ]}" "$plugin"
+        fi
+      done
     '';
   };
 in
 {
-  home.packages = with pkgs; [
+  environment.systemPackages = with pkgs; [
     epiclang
-    llvmPackages_20.clang
-    llvmPackages_20.clang-tools
-    llvmPackages_20.llvm
+    llvmPackages_21.clang
+    llvmPackages_21.llvm
+    
   ];
 
-  home.file.".local/lib/epiclang/plugins".source = "${epiclang}/lib/epiclang/plugins";
+  systemd.tmpfiles.rules = [
+    "L+ /opt/epiclang/plugins - - - - ${epiclang}/lib/epiclang/plugins"
+  ];
 }
