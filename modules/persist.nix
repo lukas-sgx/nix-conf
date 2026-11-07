@@ -31,7 +31,7 @@ in
         "Pictures"
         "Videos"
         ".ssh"
-        ".config/Code"
+        # ".config/Code"
         ".config/zen"
         ".cache/zen"
         ".mozilla"
