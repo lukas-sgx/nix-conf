@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  zen-browser,
   system,
   lib,
   inputs,
@@ -29,9 +28,7 @@ in
     firefox
 
     gnome-extension-manager
-  ]) ++ [
-    zen-browser.packages.${system}.default
-  ];
+  ]);
 
   programs.home-manager.enable = true;
 }
