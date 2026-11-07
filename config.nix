@@ -79,7 +79,5 @@ in
     nerd-fonts.jetbrains-mono
   ];
 
-  programs.dconf.enable = true;
-
   system.stateVersion = env.nixVersion;
 }
