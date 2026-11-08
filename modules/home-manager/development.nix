@@ -7,10 +7,6 @@
   ...
 }:
 {
-  imports = [
-    ./epiclang.nix
-  ];
-
   home.packages = (
     with pkgs;
     [
@@ -55,9 +51,9 @@
         "window.titleBarStyle" = "custom";
         "window.zoomLevel" = 0.4;
 
-        "github.copilot.enable" = {
-          "*" = false;
-        };
+        # "github.copilot.enable" = {
+        #   "*" = false;
+        # };
 
         "files.exclude" = {
           "**/*.o" = true;

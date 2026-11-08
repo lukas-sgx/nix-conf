@@ -22,6 +22,7 @@ in
     ./modules/gpg.nix
     ./modules/locale.nix
     ./modules/linker.nix
+    ./modules/epiclang.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
